@@ -1,9 +1,10 @@
 <?php
-require 'vendor/autoload.php';
 //Файл обработчик авторизации
+require 'vendor/autoload.php';
 
 use AmoCRM\Client\AmoCRMApiClient;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use Src\Controllers\ApiController;
 use Src\Controllers\TokenController;
 use Src\Controllers\EnvController;
 
@@ -44,8 +45,9 @@ if (isset($_GET['code'])) {
     }
 } elseif (TokenController::isRefreshTokenSet()) {
     try {
+        $client = ApiController::getApiClient();
         $accessToken = $oauthClient->getAccessTokenByRefreshToken(
-            $apiClient->getAccessToken()
+            $client->getAccessToken(),
         );
 
         TokenController::setToken([

@@ -1,4 +1,5 @@
 <?php
+//Файл обработчик webhook лида
 require 'vendor/autoload.php';
 
 use Src\Controllers\CRM\LeadController;
