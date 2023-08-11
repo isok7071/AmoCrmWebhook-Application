@@ -5,7 +5,7 @@ services:
     build:
       dockerfile: ./images/nginx/Dockerfile # путь до dockerFile из которого будет собран docker-образ
     ports:
-      - "80:80"
+      - "5120:80"
     networks:
       - network
     depends_on: 
