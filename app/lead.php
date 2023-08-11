@@ -14,6 +14,3 @@ if ($_POST) {
         $lead->onLeadUpdate($_POST['leads']['update'][0]['id']);
     }
 }
-
-$lead = new LeadController();
-dd($lead->getLeadFields(44671863));
