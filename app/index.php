@@ -1,4 +1,6 @@
 <?php
+
+ob_start();
 require 'vendor/autoload.php';
 
 use AmoCRM\Exceptions\AmoCRMApiException;
@@ -6,15 +8,17 @@ use AmoCRM\Models\WebhookModel;
 use Src\Controllers\TokenController;
 use Src\Controllers\ApiController;
 
-//TODO обновление токена
 $isTokenSet = TokenController::isTokenSet();
 if (!$isTokenSet) {
     header("Location: auth.php");
-    exit;
+    ob_end_flush();
+    exit();
 }
 
 //Подпишемся на вебхук добавления сделки
 $webhook = new WebhookModel();
+
+//Тут необходимо указать корректный url, в зависимости от вашего хоста
 $webhook->setDestination("https://" . $_SERVER["HTTP_HOST"] . "/lead.php")
     ->setSettings([
         'add_lead',

@@ -1,4 +1,6 @@
 <?php
+
+ob_start();
 //Файл обработчик авторизации
 require 'vendor/autoload.php';
 
@@ -8,18 +10,11 @@ use Src\Controllers\ApiController;
 use Src\Controllers\TokenController;
 use Src\Controllers\EnvController;
 
-$isTokenSet = TokenController::isTokenSet();
-
 [
     'CLIENT_ID' => $clientId,
     'CLIENT_SECRET' => $clientSecret,
     'REDIRECT_URI' => $redirectUri
 ] = EnvController::getEnv();
-[
-    'refreshToken' => $refreshToken,
-    'expires' => $expires,
-    'baseDomain' => $baseDomain
-] = TokenController::getToken();
 
 $apiClient = new AmoCRMApiClient($clientId, $clientSecret, $redirectUri);
 $oauthClient = $apiClient->getOAuthClient();
@@ -39,6 +34,8 @@ if (isset($_GET['code'])) {
             'baseDomain' => $apiClient->getAccountBaseDomain()
         ]);
         header("Location: /");
+        ob_end_flush();
+
         exit;
     } catch (IdentityProviderException $e) {
         exit($e->getMessage());
@@ -56,8 +53,9 @@ if (isset($_GET['code'])) {
             'expires' => $accessToken->getExpires(),
             'baseDomain' => $apiClient->getAccountBaseDomain()
         ]);
-
         header("Location: /");
+        ob_end_flush();
+
         exit;
     } catch (IdentityProviderException $e) {
         exit($e->getMessage());
@@ -66,5 +64,6 @@ if (isset($_GET['code'])) {
     // Если нет кода и refreshToken, перенаправляем на страницу авторизации
     $authorizationUrl = $oauthClient->getAuthorizeUrl();
     header("Location: {$authorizationUrl}");
+    ob_end_flush();
     exit;
 }
