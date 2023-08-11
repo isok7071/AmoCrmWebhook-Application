@@ -13,6 +13,7 @@ services:
       - php-fpm
     volumes: #  монтирование директорий, директория-на-хост-машине:директория-в-докере
       - ./app:/var/www/dev/
+    restart: always
   php-fpm:
     build:
       context: .
@@ -21,6 +22,7 @@ services:
       - network
     volumes:
       - ./app:/var/www/dev/
+    restart: always
 networks: # явно объявленные сети
   network:
     driver: bridge
