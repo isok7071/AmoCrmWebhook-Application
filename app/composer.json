@@ -1,0 +1,18 @@
+{
+    "name": "isok/simple-php-docker-env",
+    "description": "Simple docker env for php development",
+    "type": "project",
+    "require": {
+        "amocrm/amocrm-api-library": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "isok"
+        }
+    ]
+}

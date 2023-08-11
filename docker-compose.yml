@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      dockerfile: ./images/nginx/Dockerfile # путь до dockerFile из которого будет собран docker-образ
+    ports:
+      - "80:80"
+    networks:
+      - network
+    depends_on: 
+      - php-fpm
+    volumes: #  монтирование директорий, директория-на-хост-машине:директория-в-докере
+      - ./app:/var/www/dev/
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./images/php-fpm/Dockerfile
+    networks:
+      - network
+    volumes:
+      - ./app:/var/www/dev/
+networks: # явно объявленные сети
+  network:
+    driver: bridge
